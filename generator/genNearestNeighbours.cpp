@@ -62,7 +62,9 @@ class DistComparator {
 std::vector<vec> genNeighbours(const std::vector<vec>& points, int point_index, int k) {
   vec center = points[point_index];
   std::vector<vec> sorted(points);
-  std::sort(sorted.begin(), sorted.end(), DistComparator(center));
+  //std::sort(sorted.begin(), sorted.end(), DistComparator(center));
+  std::nth_element(sorted.begin(), sorted.begin() + k, sorted.end(), DistComparator(center));
+  std::nth_element(sorted.begin(), sorted.begin(), sorted.begin() + k + 1, DistComparator(center));
   return std::vector<vec>(sorted.begin() + 1, sorted.begin() + 1 + k);
 }
 

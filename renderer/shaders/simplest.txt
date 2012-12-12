@@ -32,4 +32,5 @@ void main() {
   float dp = max(0.0, dot(normalize(light_dir), nrm_));
   float koef = ambient + diffuse * dp;
   gl_FragColor = vec4(col_ * koef, 1.0);
+  //gl_FragColor = vec4((nrm_ + vec3(1.0, 1.0, 1.0)) * 0.5, 1.0);
 }

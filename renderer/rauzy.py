@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-SCREEN_SIZE = (1366, 768)
-#SCREEN_SIZE = (1280, 800)
+#SCREEN_SIZE = (1366, 768)
+SCREEN_SIZE = (1280, 800)
 
 from modules.sequence_generator import SequenceGenerator
 from modules.vector3 import Vector3
@@ -192,12 +192,12 @@ def main():
   vbo3 = VertexBuffer()
   vbo3.bind(GL_ARRAY_BUFFER)
 
-  sequence_iterations = 11
-  with open('utils/v' + str(sequence_iterations)) as f:
+  sequence_iterations = 14
+  with open('../generator/v' + str(sequence_iterations)) as f:
     v3 = f.read()
-  with open('utils/c' + str(sequence_iterations)) as f:
+  with open('../generator/c' + str(sequence_iterations)) as f:
     c4 = f.read()
-  with open('utils/n' + str(sequence_iterations)) as f:
+  with open('../generator/n' + str(sequence_iterations)) as f:
     n4 = f.read()
   vbo3.setBinaryData(v3 + c4 + n4, GL_STATIC_DRAW)
   vbo3.unBind()
@@ -294,12 +294,13 @@ def main():
     simple.bind()
     simple.enableAttrArray('pos', True)
     simple.enableAttrArray('col', True)
-    #simple.enableAttrArray('nrm', True)
+    simple.enableAttrArray('nrm', True)
     simple.setUniformMat4('MVP', MVP)
-    simple.setUniformVec3('light_dir', Vector3(cos(light_angle), 0.0,
-                                               sin(light_angle)))
+    simple.setUniformVec3('light_dir', Vector3(cos(light_angle), 0.0, sin(light_angle)))
+    #print Vector3(cos(light_angle), 0.0, sin(light_angle))
     vbo3.bind(GL_ARRAY_BUFFER)
     glVertexAttribPointer(simple.getAttribLocation('pos'), 3, GL_FLOAT, GL_FALSE, 0, c_void_p(0))
+    #glVertexAttribPointer(simple.getAttribLocation('pos'), 3, GL_FLOAT, GL_FALSE, 0, c_void_p(len(v3)+len(c4)))
     glVertexAttribPointer(simple.getAttribLocation('col'), 3, GL_FLOAT, GL_FALSE, 0, c_void_p(len(v3)))
     glVertexAttribPointer(simple.getAttribLocation('nrm'), 3, GL_FLOAT, GL_FALSE, 0, c_void_p(len(v3)+len(c4)))
     glDrawArrays(GL_POINTS, 0, len(v3) / 12)
