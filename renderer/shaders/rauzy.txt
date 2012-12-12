@@ -1,0 +1,32 @@
+###VERTEX
+
+#version 330 core
+
+uniform mat4 MVP;
+uniform vec4 project_plane;
+
+in vec3 pos;
+in vec3 col;
+
+out vec3 col_;
+
+vec3 prj(vec3 pt, vec4 pln) {
+  float d = pt.x*pln.x+pt.y*pln.y+pt.z*pln.z+pln.w;
+  return pt - d * pln.xyz;
+}
+
+void main() {
+  gl_Position = MVP * vec4(prj(pos, project_plane), 1.0);
+  col_ = col;
+}
+
+###FRAGMENT
+
+#version 330 core
+
+in vec3 col_;
+out vec4 color;
+
+void main() {
+  color = vec4(col_, 1.0);
+}

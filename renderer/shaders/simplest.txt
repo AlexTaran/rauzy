@@ -1,0 +1,35 @@
+###VERTEX
+
+#version 120
+
+uniform mat4 MVP;
+
+attribute vec3 pos;
+attribute vec3 col;
+attribute vec3 nrm;
+
+varying vec3 col_;
+varying vec3 nrm_;
+
+void main() {
+  gl_Position = MVP * vec4(pos, 1.0);
+  col_ = col;
+  nrm_ = nrm;
+}
+
+###FRAGMENT
+
+#version 120
+
+uniform vec3 light_dir;
+
+varying vec3 col_;
+varying vec3 nrm_;
+
+void main() {
+  float ambient = 0.2;
+  float diffuse = 0.8;
+  float dp = max(0.0, dot(normalize(light_dir), nrm_));
+  float koef = ambient + diffuse * dp;
+  gl_FragColor = vec4(col_ * koef, 1.0);
+}

@@ -1,0 +1,36 @@
+###VERTEX
+
+#version 330 core
+
+uniform mat4 MVP;
+
+in vec3 pos;
+in vec3 col;
+in vec3 nrm;
+
+out vec3 col_;
+out vec3 nrm_;
+
+void main() {
+  gl_Position = MVP * vec4(pos, 1.0);
+  col_ = col;
+  nrm_ = nrm;
+}
+
+###FRAGMENT
+
+#version 330 core
+
+in vec3 col_;
+in vec3 nrm_;
+
+out vec4 color;
+
+void main() {
+  vec3 light_dir = normalize(vec3(1.0, 2.0, -3.0));
+  float ambient = 0.2;
+  float diffuse = 0.8;
+  float dp = max(0.0, dot(light_dir, nrm_));
+  float koef = ambient + diffuse * dp;
+  color = vec4(col_ * koef, 1.0);
+}

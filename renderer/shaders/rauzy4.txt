@@ -1,0 +1,36 @@
+###VERTEX
+
+#version 330 core
+
+uniform mat4 MVP;
+uniform vec4 project_normal;
+uniform float project_koef;
+
+in vec4 pos;
+in vec3 col;
+
+out vec3 col_;
+
+// need to rotate nrm to (0,0,0,1)
+// and rotate projected pt in the same way
+
+vec4 prj(vec4 pt, vec4 nrm, float k) {
+  float d = pt.x * nrm.x + pt.y * nrm.y + pt.z * nrm.z + pt.w * nrm.w + k;
+  return (pt - d * nrm.xyzw);
+}
+
+void main() {
+  gl_Position = MVP * prj(pos, project_normal, project_koef);
+  col_ = col;
+}
+
+###FRAGMENT
+
+#version 330 core
+
+in vec3 col_;
+out vec4 color;
+
+void main() {
+  color = vec4(col_, 1.0);
+}
