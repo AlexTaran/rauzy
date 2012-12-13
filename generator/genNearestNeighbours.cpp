@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
       cout << " "<< neighbours[j](0) << " " << neighbours[j](1) << " " << neighbours[j](2);
     }
     cout << endl;
-    if (i % 1000 == 0) {
+    if (i % 200 == 0) {
       cerr << "Processed " << i << " points" << endl;
     }
   }

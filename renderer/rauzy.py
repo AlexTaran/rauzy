@@ -104,7 +104,7 @@ def main():
   vbo3 = VertexBuffer()
   vbo3.bind(GL_ARRAY_BUFFER)
 
-  sequence_iterations = 14
+  sequence_iterations = 10
   with open('../generator/v' + str(sequence_iterations)) as f:
     v3 = f.read()
   with open('../generator/c' + str(sequence_iterations)) as f:

@@ -43,7 +43,7 @@ int main() {
       //sum += (points[i] - points[0]) / ublas::norm_2(points[i] - points[0]);
     }
     double l = ublas::norm_2(sum);
-    if (l < 1e-5) {
+    if (l < 1e-4) {
       cout << "0.0 0.0 0.0" << endl;
     } else {
       sum /= -l;

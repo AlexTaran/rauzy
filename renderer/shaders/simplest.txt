@@ -27,6 +27,9 @@ varying vec3 col_;
 varying vec3 nrm_;
 
 void main() {
+  if (length(nrm_) < 0.1) {
+    discard;
+  }
   float ambient = 0.2;
   float diffuse = 0.8;
   float dp = max(0.0, dot(normalize(light_dir), nrm_));
