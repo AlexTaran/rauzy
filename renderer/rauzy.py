@@ -9,6 +9,7 @@ from modules.VertexBuffer import VertexBuffer
 from modules.Shader import Shader
 
 import pygame
+import sys
 from pygame.locals import *
 
 from OpenGL.GL import *
@@ -82,6 +83,9 @@ def resize(w, h):
 
 
 def main():
+  if len(sys.argv) != 2:
+    print "Wring number of args!"
+    return
   CURRENT_POINT_SIZE = 4.0
   CURRENT_STEP = 0.001
 
@@ -104,12 +108,12 @@ def main():
   vbo3 = VertexBuffer()
   vbo3.bind(GL_ARRAY_BUFFER)
 
-  sequence_iterations = 10
-  with open('../generator/v' + str(sequence_iterations)) as f:
+  sequence_iterations = int(sys.argv[1])
+  with open('../generator/v' + str(sequence_iterations) + ".gen") as f:
     v3 = f.read()
-  with open('../generator/c' + str(sequence_iterations)) as f:
+  with open('../generator/c' + str(sequence_iterations) + ".gen") as f:
     c4 = f.read()
-  with open('../generator/n' + str(sequence_iterations)) as f:
+  with open('../generator/n' + str(sequence_iterations) + ".gen") as f:
     n4 = f.read()
   vbo3.setBinaryData(v3 + c4 + n4, GL_STATIC_DRAW)
   vbo3.unBind()

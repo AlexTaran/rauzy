@@ -27,7 +27,7 @@ varying vec3 col_;
 varying vec3 nrm_;
 
 void main() {
-  if (length(nrm_) < 0.1) {
+  if (length(nrm_) < 0.001) {
     discard;
   }
   float ambient = 0.2;

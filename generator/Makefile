@@ -1,4 +1,4 @@
-all: genSeq genPoints projector grepMainDir genVerticesVbo genColorsVbo genNormals genNearestNeighbours
+all: genSeq genPoints projector grepMainDir genVbo genColors genNormals genNearestNeighbours genFastNearestNeighbours
 
 genSeq: genSeq.cpp
 	g++ genSeq.cpp -o genSeq
@@ -12,11 +12,11 @@ projector: projector.cpp
 grepMainDir: grepMainDir.cpp
 	g++ grepMainDir.cpp -o grepMainDir
 
-genVerticesVbo: genVerticesVbo.cpp
-	g++ genVerticesVbo.cpp -o genVerticesVbo
+genVbo: genVbo.cpp
+	g++ genVbo.cpp -o genVbo
 
-genColorsVbo: genColorsVbo.cpp
-	g++ genColorsVbo.cpp -o genColorsVbo
+genColors: genColors.cpp
+	g++ genColors.cpp -o genColors
 
 genNormals: genNormals.cpp
 	g++ genNormals.cpp -o genNormals
@@ -24,5 +24,8 @@ genNormals: genNormals.cpp
 genNearestNeighbours: genNearestNeighbours.cpp
 	g++ genNearestNeighbours.cpp -o genNearestNeighbours
 
+genFastNearestNeighbours: genFastNearestNeighbours.cpp
+	g++ genFastNearestNeighbours.cpp -o genFastNearestNeighbours
+
 clean:
-	rm -f genSeq genPoints projector grepMainDir genVerticesVbo genColorsVbo genNormals genNearestNeighbours
+	rm -f genSeq genPoints projector grepMainDir genVbo genColors genNormals genNearestNeighbours genFastNearestNeighbours
