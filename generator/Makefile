@@ -24,7 +24,7 @@ genNormals: genNormals.cpp
 genNearestNeighbours: genNearestNeighbours.cpp
 	g++ genNearestNeighbours.cpp -o genNearestNeighbours
 
-genFastNearestNeighbours: genFastNearestNeighbours.cpp
+genFastNearestNeighbours: genFastNearestNeighbours.cpp megatree.h
 	g++ genFastNearestNeighbours.cpp -o genFastNearestNeighbours
 
 clean:

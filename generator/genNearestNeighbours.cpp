@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <ctime>
 
 using namespace boost::numeric;
 
@@ -77,6 +78,7 @@ int main(int argc, char** argv) {
   int k = stoi(argv[1]);
   std::vector<vec> points = read_points();
   cerr << points.size() << endl;
+  time_t begin_processing = clock();
   for (size_t i = 0; i < points.size(); ++i) {
     std::vector<vec> neighbours = genNeighbours(points, i, k);
     cout << points[i](0) << " " << points[i](1) << " " << points[i](2);
@@ -84,8 +86,14 @@ int main(int argc, char** argv) {
       cout << " "<< neighbours[j](0) << " " << neighbours[j](1) << " " << neighbours[j](2);
     }
     cout << endl;
-    if (i % 200 == 0) {
+    if (i !=0 && i % 200 == 0) {
       cerr << "Processed " << i << " points" << endl;
+      time_t delta_processing = clock() - begin_processing;
+      double seconds_passed = delta_processing * 1.0 / CLOCKS_PER_SEC;
+      double seconds_left = seconds_passed / i * (points.size() - i);
+      cerr << "Left " << seconds_left << " seconds / ";
+      cerr << seconds_left / 60.0 << " minutes / ";
+      cerr << seconds_left / 3600.0 << " hours"<< endl;
     }
   }
   return 0;

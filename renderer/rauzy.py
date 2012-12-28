@@ -37,36 +37,6 @@ def draw_coordinate_system(sz = 1.0):
   glVertex3f(0.0, 0.0, 1.0)
   glEnd()
 
-def count_rauzy_normals(v):
-  k = 10
-  pts = []
-  for i in xrange(len(v)/3):
-    pts.append( (v[i*3+0], v[i*3+1], v[i*3+2]) )
-  n = []
-  print 'cointing normals'
-  nc = 1
-  for pt in pts:
-    vs = [ (p[0]-pt[0], p[1]-pt[1], p[2]-pt[2],
-           (p[0]-pt[0])**2 + (p[1]-pt[1])**2 + (p[2]-pt[2])**2 ) for p in pts]
-    srt = sorted(vs, key=itemgetter(3))
-    x = y = z = 0.0
-    for i in xrange(1, 1+k):
-      x+=srt[i][0]
-      y+=srt[i][1]
-      z+=srt[i][2]
-    l = x*x+y*y+z*z
-    if l > 1e-6:
-      x /= sqrt(l)
-      y /= sqrt(l)
-      z /= sqrt(l)
-    else:
-      x = y = z = 0.0
-    n += [x, y, z]
-    nc += 1
-    if nc % 1000 == 0:
-      print nc
-  return n
-
 def gl_init():
   glEnable(GL_DEPTH_TEST)
   glShadeModel(GL_SMOOTH)
@@ -105,18 +75,27 @@ def main():
   pygame.mouse.set_visible(False)
   pygame.event.set_grab(True)
 
+  sequence_iterations = int(sys.argv[1])
+
   vbo3 = VertexBuffer()
   vbo3.bind(GL_ARRAY_BUFFER)
-
-  sequence_iterations = int(sys.argv[1])
-  with open('../generator/v' + str(sequence_iterations) + ".gen") as f:
+  with open('../generator/gen/v' + str(sequence_iterations) + ".gen") as f:
     v3 = f.read()
-  with open('../generator/c' + str(sequence_iterations) + ".gen") as f:
+  with open('../generator/gen/c' + str(sequence_iterations) + ".gen") as f:
     c4 = f.read()
-  with open('../generator/n' + str(sequence_iterations) + ".gen") as f:
+  with open('../generator/gen/n' + str(sequence_iterations) + ".gen") as f:
     n4 = f.read()
+  with open('../generator/gen/f' + str(sequence_iterations) + ".gen") as f:
+    f4 = f.read()
   vbo3.setBinaryData(v3 + c4 + n4, GL_STATIC_DRAW)
   vbo3.unBind()
+
+  faces_vbo = VertexBuffer()
+  faces_vbo.bind(GL_ARRAY_BUFFER)
+  with open('../generator/gen/f' + str(sequence_iterations) + ".gen") as f:
+    f4 = f.read()
+  faces_vbo.setBinaryData(f4, GL_STATIC_DRAW)
+  faces_vbo.unBind()
 
   light_angle_phi = 0.0
   light_angle_theta = 0.0
@@ -171,8 +150,8 @@ def main():
       break
     time_passed = clock.tick()
     time_passed_seconds = time_passed / 1000.0
-    light_angle_phi   += time_passed_seconds * 1.5
-    light_angle_theta += time_passed_seconds * 0.9
+    light_angle_phi   += time_passed_seconds * 0.3
+    light_angle_theta += time_passed_seconds * 0.1
     while light_angle_phi > 2 * pi:
       light_angle_phi -= 2 * pi
     while light_angle_theta > 2 * pi:
@@ -227,6 +206,13 @@ def main():
     glVertexAttribPointer(simple.getAttribLocation('nrm'), 3, GL_FLOAT, GL_FALSE, 0, c_void_p(len(v3)+len(c4)))
     glDrawArrays(GL_POINTS, 0, len(v3) / 12)
     vbo3.unBind()
+    faces_vbo.bind(GL_ARRAY_BUFFER)
+    stride = 9 * 4 # nine floats
+    glVertexAttribPointer(simple.getAttribLocation('pos'), 3, GL_FLOAT, GL_FALSE, stride, c_void_p(0))
+    glVertexAttribPointer(simple.getAttribLocation('col'), 3, GL_FLOAT, GL_FALSE, stride, c_void_p(3 * 4))
+    glVertexAttribPointer(simple.getAttribLocation('nrm'), 3, GL_FLOAT, GL_FALSE, stride, c_void_p(6 * 4))
+    glDrawArrays(GL_TRIANGLES, 0, len(f4) / 9 / 4)
+    faces_vbo.unBind()
     simple.unBind()
 
     #glPointSize(25.0)

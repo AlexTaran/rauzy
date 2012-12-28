@@ -36,4 +36,5 @@ void main() {
   float koef = ambient + diffuse * dp;
   gl_FragColor = vec4(col_ * koef, 1.0);
   //gl_FragColor = vec4((nrm_ + vec3(1.0, 1.0, 1.0)) * 0.5, 1.0);
+  //gl_FragColor = vec4(col_, 1.0);
 }
