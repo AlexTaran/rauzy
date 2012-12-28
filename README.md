@@ -11,6 +11,7 @@ Usage
 in folder 'generator' run:
 
 make
+
 ./process.sh 15
 
 where 15 is number of iterations for sequence. You can use any number. There are nearly 60000 points
