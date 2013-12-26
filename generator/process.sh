@@ -3,6 +3,8 @@
 numberOfNeighbours="50"
 genFolder="gen"
 
+mkdir -p $genFolder
+
 sequenceFile="$genFolder/sequence$1.gen"
 pointsFile="$genFolder/points$1.gen"
 projectedFile="$genFolder/projected$1.gen"
